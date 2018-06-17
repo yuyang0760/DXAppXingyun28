@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <element name="单">false</element>
+  <element name="双">true</element>
+</root>

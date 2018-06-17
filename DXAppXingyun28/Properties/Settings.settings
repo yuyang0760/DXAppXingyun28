@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DXAppXingyun28.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="WebSourceUrlType" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="dbName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">pceggs.db</Value>
+    </Setting>
+    <Setting Name="TimerUpdateDbInterval" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
+    <Setting Name="NumOfmoshi" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+    <Setting Name="startTouZhu" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">224000</Value>
+    </Setting>
+    <Setting Name="isEnableMysuanfa" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="profile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\Administrator\AppData\Roaming\Mozilla\Firefox\Profiles\wd8zlqla.default</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
