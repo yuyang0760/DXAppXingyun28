@@ -7,6 +7,7 @@ using DevExpress.XtraGrid.Views.Grid;
 using DXAppXingyun28.common;
 using DXAppXingyun28.Util;
 using DXAppXingyun28.View;
+using DXAppXingyun28.ViewModel;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
@@ -32,6 +33,20 @@ namespace DXAppXingyun28
         public MainForm()
         {
             InitializeComponent();
+
+            //toggleSwitch_whichType.Visible = false;
+            //Button_auto_模拟.Visible = false;
+            //Button_auto_Chart.Visible = false;
+            //Button_zidingyimoni.Visible = false;
+            //tabPane2.Pages[0].PageVisible = false;
+            //tabPane2.Pages[2].PageVisible = false;
+            //tabPane1.Pages[1].PageVisible = false;
+            //tabPane1.Pages[3].PageVisible = false;
+            //tabPane1.Pages[4].PageVisible = false;
+            //tabPane1.Pages[5].PageVisible = false;
+            //Button_zidingyimoni.Visible = false;
+            //labelControl_算法1.Visible = false;
+            //spinEdit1.Visible = false;
             // 更新版本号
             Version ApplicationVersion = new Version(Application.ProductVersion);
             string weishu = "";
@@ -83,8 +98,8 @@ namespace DXAppXingyun28
             Create_ziDongTouZhu();
             listBoxControl_cun.Items.AddRange(load_自动投注().ToArray());
 
-            Button_zidingyimoni.Visible = Properties.Settings.Default.isEnableMysuanfa;
-            spinEdit1.Visible = Properties.Settings.Default.isEnableMysuanfa;
+            //Button_zidingyimoni.Visible = Properties.Settings.Default.isEnableMysuanfa;
+            //spinEdit1.Visible = Properties.Settings.Default.isEnableMysuanfa;
             _创建自定义左边();
         }
         // 测试2
@@ -944,20 +959,14 @@ namespace DXAppXingyun28
         private void Button_statistic_Click(object sender, EventArgs e)
         {
             View.GetDataFromDb();
-            if (tabPane2.SelectedPageIndex != 0 && tabPane2.SelectedPageIndex != 1)
-            {
-                tabPane2.SelectedPageIndex = 1;
-            }
-
             // 个数
             if (tabPane2.SelectedPageIndex == 1)
             {
                 // 显示左边统计
-                gridControl_statistic.DataSource = View.GetStatisticData();
-
+                gridControl_statistic.DataSource = View.ComputeGeShu(View.DbDataTable);
+                // 选择了哪些
                 List<string> selectedList = Pc28DevUtils.GetWhichSelected(gridView_statistic, "isShowInChart", "名称");
                 统计(selectedList);
-
             }
             // 数字
             if (tabPane2.SelectedPageIndex == 0)
@@ -980,7 +989,6 @@ namespace DXAppXingyun28
             DataTable _moniDataTable = Pc28Utils._统计(View.DbDataTable, select, "");
             // 显示chartItemData
             gridView_chartData.Columns.Clear();
-            gridControl_chartData.DataSource = null;
             gridControl_chartData.DataSource = _moniDataTable;
             gridView_chartData.RefreshData();
             gridView_chartData.BestFitColumns();
@@ -995,8 +1003,8 @@ namespace DXAppXingyun28
             {
                 if (
                     _moniDataTable.Columns[i].ColumnName.Contains("个数") ||
-                    _moniDataTable.Columns[i].ColumnName.Contains("标准值") 
-                   
+                    _moniDataTable.Columns[i].ColumnName.Contains("标准值")
+
                     )
                 {
                     yFields.Add(_moniDataTable.Columns[i].ColumnName);
@@ -1021,7 +1029,7 @@ namespace DXAppXingyun28
         private void 统计(List<string> selectedList)
         {
             // 获取所有投注
-            List<StatisticItem> statisticItems = View.Statistic.StatisticItemList;
+            List<NumberStatistic> geShuList = View.GeShuList;
 
             // 新建一个dt,用于合并
             DataTable _moniDataTable = new DataTable();
@@ -1030,16 +1038,15 @@ namespace DXAppXingyun28
             _moniDataTable.Columns.Add("pc28", Type.GetType("System.Int32"));
             _moniDataTable.PrimaryKey = new DataColumn[] { _moniDataTable.Columns["期号"], _moniDataTable.Columns["日期"], _moniDataTable.Columns["pc28"] };
 
-            foreach (StatisticItem item in statisticItems)
+            foreach (NumberStatistic item in geShuList)
             {
                 if (selectedList.Contains(item.Name))
                 {
-                    DataTable _moni = Pc28Utils._统计(View.DbDataTable, item.Code, item.Name);
+                    DataTable _moni = Pc28Utils._统计(View.DbDataTable, item.TouZhuHaoMa, item.Name);
 
                     _moniDataTable.Merge(_moni);
                 }
             }
-
             // 清空  
             gridView_chartData.Columns.Clear();
             gridControl_chartData.DataSource = _moniDataTable;
@@ -1056,18 +1063,18 @@ namespace DXAppXingyun28
             {
                 if (
                     _moniDataTable.Columns[i].ColumnName.Contains("个数") ||
-                    _moniDataTable.Columns[i].ColumnName.Contains("标准值") 
-                     
+                    _moniDataTable.Columns[i].ColumnName.Contains("标准值")
+
                     )
                 {
                     yFields.Add(_moniDataTable.Columns[i].ColumnName);
                 }
-                if (_moniDataTable.Columns[i].ColumnName.Contains("总盈利") 
+                if (_moniDataTable.Columns[i].ColumnName.Contains("总盈利")
                     )
                 {
                     ySecondFields.Add(_moniDataTable.Columns[i].ColumnName);
                 }
-                if (_moniDataTable.Columns[i].ColumnName.Contains("差值")||
+                if (_moniDataTable.Columns[i].ColumnName.Contains("差值") ||
                     _moniDataTable.Columns[i].ColumnName.Contains("间隔"))
                 {
                     ySecondchazhi.Add(_moniDataTable.Columns[i].ColumnName);

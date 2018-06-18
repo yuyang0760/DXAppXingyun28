@@ -134,6 +134,7 @@
     <Compile Include="Util\Notice.cs" />
     <Compile Include="Util\Pc28DevUtils.cs" />
     <Compile Include="Util\Pc28Utils.cs" />
+    <Compile Include="ViewModel\NumberStatistic.cs" />
     <Compile Include="XtraForm_chart.cs">
       <SubType>Form</SubType>
     </Compile>

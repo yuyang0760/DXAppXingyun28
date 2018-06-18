@@ -897,7 +897,7 @@
             this.tabNavigationPage_铅笔.Caption = "算法1数字选择";
             this.tabNavigationPage_铅笔.Controls.Add(this.gridControl_铅笔);
             this.tabNavigationPage_铅笔.Name = "tabNavigationPage_铅笔";
-            this.tabNavigationPage_铅笔.Size = new System.Drawing.Size(237, 534);
+            this.tabNavigationPage_铅笔.Size = new System.Drawing.Size(313, 534);
             // 
             // gridControl_铅笔
             // 
@@ -907,7 +907,7 @@
             this.gridControl_铅笔.Name = "gridControl_铅笔";
             this.gridControl_铅笔.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit_铅笔});
-            this.gridControl_铅笔.Size = new System.Drawing.Size(237, 534);
+            this.gridControl_铅笔.Size = new System.Drawing.Size(313, 534);
             this.gridControl_铅笔.TabIndex = 0;
             this.gridControl_铅笔.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView_铅笔});
@@ -1542,7 +1542,7 @@
             this.打开浏览器ToolStripMenuItem,
             this.投注模式编辑ToolStripMenuItem});
             this.contextMenuStrip_autoTouZhu.Name = "contextMenuStrip_autoTouZhu";
-            this.contextMenuStrip_autoTouZhu.Size = new System.Drawing.Size(183, 70);
+            this.contextMenuStrip_autoTouZhu.Size = new System.Drawing.Size(183, 48);
             // 
             // 打开浏览器ToolStripMenuItem
             // 

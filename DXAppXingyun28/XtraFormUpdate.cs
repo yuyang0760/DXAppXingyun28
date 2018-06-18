@@ -150,7 +150,7 @@ namespace DXAppXingyun28
             {
                 timerUpdateDb.Stop();
                 // 1.从网上获取数据
-                this.timerUpdateDb.Stop();
+                this.timerUpdateDb.Stop(); 
                 string webSource = yy.util.Util.GetWebSource("https://api.api68.com/LuckTwenty/getBaseLuckTewnty.do?lotCode=10014", Encoding.UTF8);
 
                 if (webSource == null || webSource == "") {

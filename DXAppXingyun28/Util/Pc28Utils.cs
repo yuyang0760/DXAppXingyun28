@@ -63,6 +63,51 @@ namespace DXAppXingyun28.Util
             return re;
         }
 
+        public static List<(string name, List<int> haoMa)> Get_常用投注()
+        {
+            List<(string name, List<int> haoMa)> list = new List<(string name, List<int> haoMa)>();
+            list.Add(("单", GetCode(x => x % 2 == 1)));
+            list.Add(("双", GetCode(x => x % 2 == 0)));
+            list.Add(("大", GetCode(x => x >= 14)));
+            list.Add(("小", GetCode(x => x <= 13)));
+            list.Add(("中", GetCode(x => x >= 10 && x <= 17)));
+            list.Add(("边", GetCode(x => x <= 9 || x >= 18)));
+            list.Add(("3余0", GetCode(x => x % 3 == 0)));
+            list.Add(("3余1", GetCode(x => x % 3 == 1)));
+            list.Add(("3余2", GetCode(x => x % 3 == 2)));
+            list.Add(("4余0", GetCode(x => x % 4 == 0)));
+            list.Add(("4余1", GetCode(x => x % 4 == 1)));
+            list.Add(("4余2", GetCode(x => x % 4 == 2)));
+            list.Add(("4余3", GetCode(x => x % 4 == 3)));
+            list.Add(("5余0", GetCode(x => x % 5 == 0)));
+            list.Add(("5余1", GetCode(x => x % 5 == 1)));
+            list.Add(("5余2", GetCode(x => x % 5 == 2)));
+            list.Add(("5余3", GetCode(x => x % 5 == 3)));
+            list.Add(("5余4", GetCode(x => x % 5 == 4)));
+            list.Add(("8-19", GetCode(x => x >= 8 && x <= 19)));
+            list.Add(("去12-15", GetCode(x => x <= 11 || x >= 16)));
+            list.Add(("去11-16", GetCode(x => x <= 10 || x >= 17)));
+
+            return list;
+
+        }
+
+        public static bool IsTrue(string s)
+        {
+            if (s == null) { return false; }
+            if (s.Trim().ToLower() == "true") { return true; }
+            return false;
+        }
+
+        public static List<int> GetCode(Func<int, bool> func)
+        {
+            List<int> list = new List<int>();
+            for (int i = 0; i <= 27; i++)
+            {
+                if (func.Invoke(i)) { list.Add(i); }
+            }
+            return list;
+        }
 
         /// <summary>
         /// 根据数据库数据[pc28,期号,日期] 和 投注号码 统计出一些数据
@@ -150,7 +195,7 @@ namespace DXAppXingyun28.Util
                 {
                     biaozhunxian = numberbiaozhun;
                 }
-                _moniDataTable.Rows.Add(new object[] { db.Rows[i]["期号"], db.Rows[i]["日期"], db.Rows[i]["pc28"], yingli, zongyingli, pc28SumOfprobability.ToString("P"), touzhu, _n期没开,number, biaozhunxian, number - biaozhunxian });
+                _moniDataTable.Rows.Add(new object[] { db.Rows[i]["期号"], db.Rows[i]["日期"], db.Rows[i]["pc28"], yingli, zongyingli, pc28SumOfprobability.ToString("P"), touzhu, _n期没开, number, biaozhunxian, number - biaozhunxian });
 
             }
 

@@ -22,14 +22,14 @@ namespace DXAppXingyun28.Util
         internal static void MyNotice(DataTable db)
         {
             // 最近2期未出现8-19
-            _N期未出现(db, 2, 8, 19);
+            _N期未出现(db, 3, 8, 19);
             // 获取shuziName
             Vieww vieww = new Vieww();
             DataTable shuziDt = vieww.ComputeShuzi(db);
             DataTable geshuDt = new Statistic(db).Show();
 
             // 5余 差值 -6
-            _求5余(geshuDt, -6);
+            _求5余(geshuDt, -13);
 
             // 50% 差值 -11
             _百分之50(shuziDt, -11);
