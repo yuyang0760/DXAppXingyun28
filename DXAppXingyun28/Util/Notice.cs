@@ -26,7 +26,8 @@ namespace DXAppXingyun28.Util
             // 获取shuziName
             Vieww vieww = new Vieww();
             DataTable shuziDt = vieww.ComputeShuzi(db);
-            DataTable geshuDt = new Statistic(db).Show();
+ 
+            DataTable geshuDt = vieww.ComputeGeShu(db);
 
             // 5余 差值 -6
             _求5余(geshuDt, -13);

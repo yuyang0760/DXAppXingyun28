@@ -70,41 +70,5 @@ namespace DXAppXingyun28.Properties {
                 this["NumOfmoshi"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("224000")]
-        public double startTouZhu {
-            get {
-                return ((double)(this["startTouZhu"]));
-            }
-            set {
-                this["startTouZhu"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool isEnableMysuanfa {
-            get {
-                return ((bool)(this["isEnableMysuanfa"]));
-            }
-            set {
-                this["isEnableMysuanfa"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Administrator\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\wd8zlqla.default")]
-        public string profile {
-            get {
-                return ((string)(this["profile"]));
-            }
-            set {
-                this["profile"] = value;
-            }
-        }
     }
 }

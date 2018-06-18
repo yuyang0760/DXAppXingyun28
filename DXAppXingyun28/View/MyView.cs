@@ -17,8 +17,8 @@ namespace DXAppXingyun28.View
 {
     class Vieww
     {
-        public int EndExpect { get; set; } = 1;         // 结束期号
         public int StartExpect { get; set; } = 1;       // 开始期号
+        public int EndExpect { get; set; } = 1;         // 结束期号
         public DateTime StartDateTime { get; set; } = DateTime.Now;       // 开始时间
         public DateTime EndDateTime { get; set; } = DateTime.Now;         // 结束时间
         public int LastNumOfExpect { get; set; } = 1000;                  // 查询最近多少期
@@ -26,18 +26,13 @@ namespace DXAppXingyun28.View
 
 
         public DataTable DbDataTable;                       // 数据库 数据
-        public Statistic Statistic;                         // 统计类
+
         public List<NumberStatistic> ShuZiList = new List<NumberStatistic>();             // 数字List
         public List<NumberStatistic> GeShuList = new List<NumberStatistic>();             // 个数List
 
         public Dictionary<string, (string win, string fail, int[] code)> AutoTouZhu = new Dictionary<string, (string win, string fail, int[] code)>();
 
         public (int startNumber, int endNumber) rangeOfMiddle = (10, 17);    // 定义中的范围
-
-        public Vieww()
-        {
-
-        }
 
         /// <summary>
         /// 获取数据库 数据
@@ -66,13 +61,7 @@ namespace DXAppXingyun28.View
             return dbDataTable;
         }
 
-        // 计算左边统计个数
-        public DataTable GetStatisticData()
-        {
-
-            this.Statistic = new Statistic(GetDataFromDb());
-            return this.Statistic.Show();
-        }
+ 
         // 计算左边统计个数
         public DataTable ComputeGeShu(DataTable db)
         {

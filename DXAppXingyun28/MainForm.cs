@@ -24,11 +24,11 @@ namespace DXAppXingyun28
 
     public partial class MainForm : DevExpress.XtraBars.Ribbon.RibbonForm
     {
-        Vieww View = new Vieww();
+        Vieww View = new Vieww();                       // 视图
 
-        DataTable autoTouZhuDt = new DataTable();
-        Pc28Utils Pc28Utils = new Pc28Utils();
-        Pc28DevUtils Pc28DevUtils = new Pc28DevUtils();
+        DataTable autoTouZhuDt = new DataTable();       // 自动投注
+        Pc28Utils Pc28Utils = new Pc28Utils();          // 工具类
+        Pc28DevUtils Pc28DevUtils = new Pc28DevUtils(); // 工具类
 
         public MainForm()
         {
@@ -98,39 +98,11 @@ namespace DXAppXingyun28
             Create_ziDongTouZhu();
             listBoxControl_cun.Items.AddRange(load_自动投注().ToArray());
 
-            //Button_zidingyimoni.Visible = Properties.Settings.Default.isEnableMysuanfa;
-            //spinEdit1.Visible = Properties.Settings.Default.isEnableMysuanfa;
             _创建自定义左边();
         }
         // 测试2
         private void button_test2_Click(object sender, EventArgs e)
         {
-        }
-
-        private void toggleSwitch1_Toggled(object sender, EventArgs e)
-        {
-            if (((ToggleSwitch)sender).IsOn)
-            {
-                navigationFrame_main.SelectedPage = navigationPage_autoTouZhu;
-                Button_zoushitu.Enabled = false;
-                button_statistic.Enabled = false;
-                Button_zidingyimoni.Enabled = false;
-                Button_auto_模拟.Enabled = true;
-                Button_auto_Chart.Enabled = true;
-                labelControl_算法1.Enabled = false;
-                spinEdit1.Enabled = false;
-            }
-            else
-            {
-                navigationFrame_main.SelectedPage = navigationPage_statistic;
-                Button_zoushitu.Enabled = true;
-                button_statistic.Enabled = true;
-                Button_zidingyimoni.Enabled = true;
-                Button_auto_模拟.Enabled = false;
-                Button_auto_Chart.Enabled = false;
-                labelControl_算法1.Enabled = true;
-                spinEdit1.Enabled = true;
-            }
         }
 
         #region 自定义模拟
@@ -978,7 +950,6 @@ namespace DXAppXingyun28
                 数字(selectedList);
             }
 
-
         }
         // 数字
         private void 数字(List<string> selectedList)
@@ -1225,6 +1196,31 @@ namespace DXAppXingyun28
         #endregion
 
         #region 窗口最大化最小化移动设置
+        private void toggleSwitch1_Toggled(object sender, EventArgs e)
+        {
+            if (((ToggleSwitch)sender).IsOn)
+            {
+                navigationFrame_main.SelectedPage = navigationPage_autoTouZhu;
+                Button_zoushitu.Enabled = false;
+                button_statistic.Enabled = false;
+                Button_zidingyimoni.Enabled = false;
+                Button_auto_模拟.Enabled = true;
+                Button_auto_Chart.Enabled = true;
+                labelControl_算法1.Enabled = false;
+                spinEdit1.Enabled = false;
+            }
+            else
+            {
+                navigationFrame_main.SelectedPage = navigationPage_statistic;
+                Button_zoushitu.Enabled = true;
+                button_statistic.Enabled = true;
+                Button_zidingyimoni.Enabled = true;
+                Button_auto_模拟.Enabled = false;
+                Button_auto_Chart.Enabled = false;
+                labelControl_算法1.Enabled = true;
+                spinEdit1.Enabled = true;
+            }
+        }
         // 皮肤
         private void dropDownButton_skin_Click(object sender, EventArgs e)
         {

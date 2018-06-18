@@ -14,14 +14,5 @@
     <Setting Name="NumOfmoshi" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">15</Value>
     </Setting>
-    <Setting Name="startTouZhu" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">224000</Value>
-    </Setting>
-    <Setting Name="isEnableMysuanfa" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="profile" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\Administrator\AppData\Roaming\Mozilla\Firefox\Profiles\wd8zlqla.default</Value>
-    </Setting>
   </Settings>
 </SettingsFile>

@@ -279,8 +279,6 @@
     <Compile Include="Util\Odds.cs" />
     <Compile Include="Util\XmlConfig.cs" />
     <Compile Include="Util\XmlControl.cs" />
-    <Compile Include="ViewModel\Statistic.cs" />
-    <Compile Include="Model\StatisticItem.cs" />
     <Compile Include="Enum\Enums.cs" />
     <Compile Include="Model\Bjkl8Item.cs" />
     <Compile Include="MainForm.cs">
