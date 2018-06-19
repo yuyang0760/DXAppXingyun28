@@ -81,7 +81,7 @@ namespace DXAppXingyun28.View
             List<(string name, List<int> haoMa)> cy_List = Pc28Utils.Get_常用投注();
             for (int i = 0; i < cy_List.Count; i++)
             {
-                NumberStatistic numberStatistic = new NumberStatistic(cy_List[i].haoMa, cy_List[i].name, xmlConfig.Search(i.ToString()) == "true" ? true : false);
+                NumberStatistic numberStatistic = new NumberStatistic(cy_List[i].haoMa, cy_List[i].name, xmlConfig.Search(cy_List[i].name) == "true" ? true : false);
                 numberStatistic.StartStatistic(db, pc28Odds);
                 // 添加
                 GeShuList.Add(numberStatistic);
