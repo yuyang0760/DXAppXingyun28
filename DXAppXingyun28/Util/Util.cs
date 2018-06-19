@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
-using System.Threading.Tasks;
-using DXAppXingyun28.Properties;
-using DXAppXingyun28.Util;
- 
+
 
 namespace yy.util
 {

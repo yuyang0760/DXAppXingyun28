@@ -26,7 +26,13 @@ namespace DXAppXingyun28
         private string dbfilePath = Properties.Settings.Default.dbName;
         private Progress<string> progress;
         private MainForm mainForm;
-
+        // 测试按钮
+        private void button1_Click(object sender, EventArgs e)
+        {
+            (mainForm.Controls["panelControl_statisticConfig"].Controls["simpleButton_zidingyimoni"] as SimpleButton).PerformClick();
+        }
+        
+        #region 初始化等
         public XtraFormUpdate(MainForm mainForm)
         {
             this.mainForm = mainForm;
@@ -35,13 +41,28 @@ namespace DXAppXingyun28
             this.rb_bjkl8.CheckedChanged += new System.EventHandler(this.Rb_CheckedChanged);
             this.rb_pk10.CheckedChanged += new System.EventHandler(this.Rb_CheckedChanged);
 
-
+            // 初始化 progress
             progress = new Progress<string>();
             progress.ProgressChanged += Progress_ProgressChanged;
             // timer
             timerUpdateDb.Interval = Properties.Settings.Default.TimerUpdateDbInterval;
         }
+        // 关闭窗口
+        private void XtraFormUpdate_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Console.WriteLine("formClosing");
+            this.checkEdit_autoUpdate.Checked = false;
+            this.timerUpdateDb.Stop();
 
+        }
+        // 总在最上
+        private void checkEdit1_CheckedChanged(object sender, EventArgs e)
+        {
+            this.TopMost = checkEdit1.Checked;
+        }
+        #endregion
+
+        #region 更新数据库部分
         private void Progress_ProgressChanged(object sender, string e)
         {
             // 显示进度
@@ -49,8 +70,7 @@ namespace DXAppXingyun28
             if (e == "保存完成")
             {
                 this.button_update.Enabled = true;
-                //Thread.Sleep(3000);
-                // 点击主页面 自定义投注按钮
+ 
                 // 显示 走势图
                 mainForm._走势图();
                 // 统计按钮
@@ -104,7 +124,7 @@ namespace DXAppXingyun28
             DataTable dt = Sqlite3Helper.GetDs(dbfilePath, command, tablename).Tables[tablename];
             string lastDateTimeString = dt.Rows[0][0].ToString() == "" ? "2011-01-01" : dt.Rows[0][0].ToString();
 
-            Bjkl8 bjkl8OrPk10 = new Bjkl8();
+            Bjkl8Util bjkl8OrPk10 = new Bjkl8Util();
             // 利用反射 获取 Bjkl8 或 Pk10 对象
             //Type type = Type.GetType("DXAppXingyun28.util." + currentUpdate.Substring(0, 1).ToUpper() + currentUpdate.Substring(1));
             //dynamic bjkl8OrPk10 = type.Assembly.CreateInstance(type.ToString());
@@ -125,20 +145,15 @@ namespace DXAppXingyun28
             task.Start();
 
         }
-        // 关闭窗口
-        private void XtraFormUpdate_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Console.WriteLine("formClosing");
-            this.checkEdit_autoUpdate.Checked = false;
-            this.timerUpdateDb.Stop();
-         
-        }
 
+        #endregion
+
+        #region 显示部分
         // timer
         private int shengyuSeconds;             // 剩余秒数
         private DateTime opentimeNext;          // 下一次开奖时间
         private string showString;              // 显示的字符串
-        Bjkl8Item bjklItem = new Bjkl8Item();
+        Bjkl8 bjklItem = new Bjkl8();
         private bool isReport = false;          // 是否qq自动报告
         private bool isAutoUpdateDb = false;    // 是否自动更新数据库
         private bool isPlayNumber = false;    // 是否自动更新数据库
@@ -150,7 +165,6 @@ namespace DXAppXingyun28
             {
                 timerUpdateDb.Stop();
                 // 1.从网上获取数据
-                this.timerUpdateDb.Stop(); 
                 string webSource = yy.util.Util.GetWebSource("https://api.api68.com/LuckTwenty/getBaseLuckTewnty.do?lotCode=10014", Encoding.UTF8);
 
                 if (webSource == null || webSource == "") {
@@ -171,9 +185,9 @@ namespace DXAppXingyun28
                 int totalCount = int.Parse(jo["result"]["data"]["totalCount"].ToString());
 
                 // 2.1 赋值到bjjkl8item
-                bjklItem.expect = expect;
-                bjklItem.opentime = opentime;
-                bjklItem.opencode = opencodeString.Split(',')
+                bjklItem.Expect = expect;
+                bjklItem.Opentime = opentime;
+                bjklItem.Opencode = opencodeString.Split(',')
                     .Take<string>(opencodeString.Split(',').Length - 1)
                     .Select<string, int>(x => int.Parse(x)).ToList<int>();
 
@@ -181,7 +195,6 @@ namespace DXAppXingyun28
                 shengyuSeconds = (int)(this.opentimeNext - DateTime.Now).TotalSeconds;
 
                 labelControl_UpdateTIme.Text = "正在获取开奖..";
-                this.timerUpdateDb.Start();
                 isReport = true;
                 isAutoUpdateDb = true;
                 isPlayNumber = true;
@@ -193,11 +206,11 @@ namespace DXAppXingyun28
                 // 2.1 分析显示时间
                 shengyuSeconds = (int)(this.opentimeNext - DateTime.Now).TotalSeconds;
                 showString =
-                    "  时间:" + bjklItem.opentime.ToString("MM-dd HH:mm") +
-                    "  号码: <b>" + bjklItem.pc28() +
+                    "  时间:" + bjklItem.Opentime.ToString("MM-dd HH:mm") +
+                    "  号码: <b>" + bjklItem.Pc28() +
                     "</b>  下一期开奖还剩: " + shengyuSeconds+" 秒";
                 labelControl_UpdateTIme.Text = showString;
-                // 更新数据库
+                // 显示并自动更新数据库
                 if (checkEdit_autoUpdate.Checked && isAutoUpdateDb)
                 {
                     button_update.PerformClick();
@@ -208,29 +221,24 @@ namespace DXAppXingyun28
                 if (checkEdit_autoReport.Checked && isReport)
                 {
  
-                    SendKeys.Send(textEdit_autoReport.Text+ bjklItem.pc28().ToString());
+                    SendKeys.Send(textEdit_autoReport.Text+ bjklItem.Pc28().ToString());
                     SendKeys.Send("{enter}");
                     isReport = false;
                 }
                 // 播放数字
                 if (checkEdit_isPlayNumber.Checked && isPlayNumber)
                 {
-                    //Pc28Utils.PlayNumber(bjklItem.pc28());
                     isPlayNumber = false;
-                    //Task task = new Task(()=> { PlayNumber(bjklItem.pc28()); });
-                    //task.Start();
                     MP3Player mP3Player = new MP3Player();
 
-                    mP3Player.FilePath = $"./NumberVoc/{bjklItem.pc28()}.wav";
+                    mP3Player.FilePath = $"./NumberVoc/{bjklItem.Pc28()}.wav";
                     mP3Player.PlayAsync();
                 }
             }
 
         }
 
- 
-
-        //checkEdit 自动下载
+        //checkEdit 显示并自动更新
         private void CheckEditAutoUpdate_CheckedChanged(object sender, EventArgs e)
         {
             if (checkEdit_autoUpdate.Checked)
@@ -242,15 +250,7 @@ namespace DXAppXingyun28
                 this.timerUpdateDb.Stop();
             }
         }
+#endregion
 
-        private void checkEdit1_CheckedChanged(object sender, EventArgs e)
-        {
-            this.TopMost = checkEdit1.Checked;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            (mainForm.Controls["panelControl_statisticConfig"].Controls["simpleButton_zidingyimoni"] as SimpleButton).PerformClick();
-        }
     }
 }

@@ -280,7 +280,7 @@
     <Compile Include="Util\XmlConfig.cs" />
     <Compile Include="Util\XmlControl.cs" />
     <Compile Include="Enum\Enums.cs" />
-    <Compile Include="Model\Bjkl8Item.cs" />
+    <Compile Include="Model\Bjkl8.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -289,7 +289,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\Bjkl8.cs" />
+    <Compile Include="ViewModel\Bjkl8Util.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Util\ChartUtils.cs" />
     <Compile Include="Util\Sqlite3Helper.cs" />

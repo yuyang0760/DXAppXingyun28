@@ -13,14 +13,14 @@ using yy.util;
 namespace DXAppXingyun28.util
 {
 
-    class Bjkl8
+    class Bjkl8Util
     {
         public WebSourceUrlType webSourceUrlType { get; set; } = (WebSourceUrlType)Properties.Settings.Default.WebSourceUrlType;
         private static string TableName = "bjkl8";
 
-        public Bjkl8() { }
+        public Bjkl8Util() { }
 
-        public Bjkl8(WebSourceUrlType sourceUrlType)
+        public Bjkl8Util(WebSourceUrlType sourceUrlType)
         {
             this.webSourceUrlType = sourceUrlType;
         }
@@ -29,7 +29,7 @@ namespace DXAppXingyun28.util
         /// </summary>
         /// <param name="webSource"></param>
         /// <returns></returns>
-        private List<Bjkl8Item> ConvertWebSourceToModel(string webSource)
+        private List<Bjkl8> ConvertWebSourceToModel(string webSource)
         {
             if (webSource == null || webSource == string.Empty)
             {
@@ -42,19 +42,19 @@ namespace DXAppXingyun28.util
                 XmlControl xmlControl = new XmlControl();
                 xmlControl.LoadXmlString(webSource);
                 XmlNodeList xmlNodeList = xmlControl.SelectNodes("row");
-                List<Bjkl8Item> bJKL8List = new List<Bjkl8Item>();
+                List<Bjkl8> bJKL8List = new List<Bjkl8>();
                 foreach (XmlNode item in xmlNodeList)
                 {
-                    Bjkl8Item bJKL8 = new Bjkl8Item();
-                    bJKL8.expect = int.Parse(item.SelectSingleNode("@expect").Value);
-                    bJKL8.opentime = Convert.ToDateTime(item.SelectSingleNode("@opentime").Value);
+                    Bjkl8 bJKL8 = new Bjkl8();
+                    bJKL8.Expect = int.Parse(item.SelectSingleNode("@expect").Value);
+                    bJKL8.Opentime = Convert.ToDateTime(item.SelectSingleNode("@opentime").Value);
                     string[] sArr = item.SelectSingleNode("@opencode").Value.Split(',');
                     List<int> list = new List<int>();
                     foreach (string item1 in sArr)
                     {
                         list.Add(int.Parse(item1));
                     }
-                    bJKL8.opencode = list;
+                    bJKL8.Opencode = list;
                     bJKL8List.Add(bJKL8);
                 }
                 bJKL8List.Reverse();
@@ -67,12 +67,12 @@ namespace DXAppXingyun28.util
                 if (jo["errorCode"].ToString() != "0" || jo["result"]["businessCode"].ToString() != "0") { return null; }
 
                 // 3.分析后赋值到 bJKL8List
-                List<Bjkl8Item> bJKL8List = new List<Bjkl8Item>();
+                List<Bjkl8> bJKL8List = new List<Bjkl8>();
                 foreach (JObject item in jo["result"]["data"])
                 {
-                    Bjkl8Item bJKL8 = new Bjkl8Item();
-                    bJKL8.expect = int.Parse(item["preDrawIssue"].ToString());
-                    bJKL8.opentime = Convert.ToDateTime(item["preDrawTime"].ToString());
+                    Bjkl8 bJKL8 = new Bjkl8();
+                    bJKL8.Expect = int.Parse(item["preDrawIssue"].ToString());
+                    bJKL8.Opentime = Convert.ToDateTime(item["preDrawTime"].ToString());
                     string[] sArr = item["preDrawCode"].ToString().Split(',');
 
                     // 排除意外
@@ -84,7 +84,7 @@ namespace DXAppXingyun28.util
                     List<int> list = sArrList.Select<string, int>(x => int.Parse(x)).ToList<int>();
                     // 排序
                     list.Sort();
-                    bJKL8.opencode = list;
+                    bJKL8.Opencode = list;
                     bJKL8List.Add(bJKL8);
                 }
                 bJKL8List.Reverse();
@@ -100,9 +100,9 @@ namespace DXAppXingyun28.util
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public List<Bjkl8Item> Download(DateTime date)
+        public List<Bjkl8> Download(DateTime date)
         {
-            Console.WriteLine($"正在下载 {date.ToString("yyyy-MM-dd")} 的数据");
+            //Console.WriteLine($"正在下载 {date.ToString("yyyy-MM-dd")} 的数据");
             string url = "";
             if (this.webSourceUrlType == WebSourceUrlType._168kai)
             {
@@ -127,23 +127,23 @@ namespace DXAppXingyun28.util
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <returns></returns>
-        public List<Bjkl8Item> Download(DateTime startDate1, DateTime endDate1, IProgress<string> progress)
+        public List<Bjkl8> Download(DateTime startDate1, DateTime endDate1, IProgress<string> progress)
         {
             Console.WriteLine($"正在下载 {startDate1.ToString("yyyy-MM-dd")} 到 {endDate1.ToString("yyyy-MM-dd")} 的数据");
             DateTime startDate = Convert.ToDateTime(startDate1.ToString("yyyy-MM-dd"));
             DateTime endDate = Convert.ToDateTime(endDate1.ToString("yyyy-MM-dd"));
 
-            List<Bjkl8Item> re = new List<Bjkl8Item>();
+            List<Bjkl8> re = new List<Bjkl8>();
             while (DateTime.Compare(startDate, endDate) <= 0)
             {
                 progress.Report("正在更新:" + startDate.ToString("yyyy-MM-dd"));
-                List<Bjkl8Item> listBjkl8Item = Download(startDate);
+                List<Bjkl8> listBjkl8Item = Download(startDate);
                 if (listBjkl8Item == null) { continue; }
-                foreach (Bjkl8Item item in listBjkl8Item)
+                foreach (Bjkl8 item in listBjkl8Item)
                 {
                     re.Add(item);
                 }
-                Console.WriteLine(startDate.ToString("yyyy-MM-dd") + " 下载完成");
+                //Console.WriteLine(startDate.ToString("yyyy-MM-dd") + " 下载完成");
                 startDate = startDate.AddDays(1);
             }
             progress.Report("更新完成");
@@ -208,7 +208,7 @@ namespace DXAppXingyun28.util
         /// 保存数据到数据库
         /// </summary>
         /// <param name="listItem"></param>
-        public void SaveData(string filePath, List<Bjkl8Item> listItem, IProgress<string> progress)
+        public void SaveData(string filePath, List<Bjkl8> listItem, IProgress<string> progress)
         {
             SQLiteConnection cn = new SQLiteConnection("data source=" + filePath);
             cn.Open();
@@ -227,12 +227,12 @@ namespace DXAppXingyun28.util
 
                     for (int i = 0; i < listItem.Count; i++)
                     {
-                        Bjkl8Item item = listItem[i];
-                        cmd.Parameters["expect"].Value = item.expect;
-                        cmd.Parameters["opentime"].Value = item.opentime;
-                        cmd.Parameters["opencode"].Value = item.opencodeString;
-                        cmd.Parameters["pc28"].Value = item.pc28();
-                        cmd.Parameters["bj28"].Value = item.bj28();
+                        Bjkl8 item = listItem[i];
+                        cmd.Parameters["expect"].Value = item.Expect;
+                        cmd.Parameters["opentime"].Value = item.Opentime;
+                        cmd.Parameters["opencode"].Value = item.OpencodeString;
+                        cmd.Parameters["pc28"].Value = item.Pc28();
+                        cmd.Parameters["bj28"].Value = item.Bj28();
                         cmd.ExecuteNonQuery();
                     }
                     tr.Commit();

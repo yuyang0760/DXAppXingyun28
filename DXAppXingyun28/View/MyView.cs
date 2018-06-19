@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+ 
 using DevExpress.XtraCharts;
 using DXAppXingyun28.common;
 
@@ -45,23 +46,45 @@ namespace DXAppXingyun28.View
 
             if (this.WhichMethod == GetDataWhichMethod._根据最近期数获取)
             {
-                dbDataTable = Bjkl8.GetDataFromDb(this.LastNumOfExpect);
+                dbDataTable = Bjkl8Util.GetDataFromDb(this.LastNumOfExpect);
 
             }
             if (this.WhichMethod == GetDataWhichMethod._根据日期获取)
             {
-                dbDataTable = Bjkl8.GetDataFromDb(this.StartDateTime, this.EndDateTime);
+                dbDataTable = Bjkl8Util.GetDataFromDb(this.StartDateTime, this.EndDateTime);
             }
             if (this.WhichMethod == GetDataWhichMethod._根据期号获取)
             {
-                dbDataTable = Bjkl8.GetDataFromDb(this.StartExpect, this.EndExpect);
+                dbDataTable = Bjkl8Util.GetDataFromDb(this.StartExpect, this.EndExpect);
             }
             Notice.MyNotice(dbDataTable);
             this.DbDataTable = dbDataTable;
             return dbDataTable;
         }
 
- 
+        // 设置皮肤
+        public void SetSkin(DevExpress.LookAndFeel.DefaultLookAndFeel defaultLookAndFeel1)
+        {
+            XmlConfig xmlControl = new XmlConfig("./xml/skin.xml");
+            defaultLookAndFeel1.LookAndFeel.SetSkinStyle(xmlControl.Search("skin"));
+        }
+
+        // 设置标题
+        public string SetTitle()
+        {
+            Version ApplicationVersion = new Version(System.Windows.Forms.Application.ProductVersion);
+            string weishu = "";
+            if (IntPtr.Size == 4)
+            {
+                weishu = "(32位)";
+            }
+            else if (IntPtr.Size == 8)
+            {
+                weishu = "(64位)";
+            }
+            return  "pc蛋蛋 查询 统计 模拟 " + ApplicationVersion.ToString() + " by 铅笔yy " + weishu;
+    
+        }
         // 计算左边统计个数
         public DataTable ComputeGeShu(DataTable db)
         {

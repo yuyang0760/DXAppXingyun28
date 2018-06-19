@@ -10,32 +10,32 @@ namespace DXAppXingyun28.domain
     /// 表示北京快乐8的每一期开奖的数据
     /// 包括开奖时间,期号,号码,pc28号码,bj28号码等等
     /// </summary>
-    class Bjkl8Item 
+    class Bjkl8 
     {
         /// <summary>
         /// 开奖时间
         /// </summary>
-        public DateTime opentime { get; set; }
+        public DateTime Opentime { get; set; }
         /// <summary>
         /// 开奖号码
         /// </summary>
-        public List<int> opencode { get  ; set  ; }
+        public List<int> Opencode { get  ; set  ; }
         /// <summary>
         /// 开奖期号
         /// </summary>
-        public int expect { get  ; set  ; }
+        public int Expect { get  ; set  ; }
 
-        public string opencodeString
+        public string OpencodeString
         {
             get
             {
-                return string.Join(",", opencode);
+                return string.Join(",", Opencode);
             }
         }
-        public int pc28()
+        public int Pc28()
         {
             
-            int[] n= opencode.ToArray();
+            int[] n= Opencode.ToArray();
             int num = 0;
             for (int i = 1; i <= 6; i++)
             {
@@ -57,9 +57,9 @@ namespace DXAppXingyun28.domain
             return num + num2 + num3;
         }
 
-        public int bj28( )
+        public int Bj28( )
         {
-            int[] n = opencode.ToArray();
+            int[] n = Opencode.ToArray();
 
             int num = 0;
             for (int i = 2; i <= 17; i += 3)
@@ -82,9 +82,9 @@ namespace DXAppXingyun28.domain
             return num + num2 + num3;
         }
 
-        public int bj16()
+        public int Bj16()
         {
-            int[] n = opencode.ToArray();
+            int[] n = Opencode.ToArray();
 
             int num = 0;
             for (int i = 1; i <= 16; i += 3)
@@ -109,7 +109,7 @@ namespace DXAppXingyun28.domain
 
         public string BJ36ZN()
         {
-            int[] n = opencode.ToArray();
+            int[] n = Opencode.ToArray();
 
             int num = 0;
             for (int i = 2; i <= 17; i += 3)
@@ -179,9 +179,9 @@ namespace DXAppXingyun28.domain
             return result;
         }
 
-        public int bj36()
+        public int Bj36()
         {
-            int[] n = opencode.ToArray();
+            int[] n = Opencode.ToArray();
 
             int num = 0;
             for (int i = 2; i <= 17; i += 3)

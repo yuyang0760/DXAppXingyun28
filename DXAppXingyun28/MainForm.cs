@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraBars.Helpers;
+﻿using DevExpress.LookAndFeel;
+using DevExpress.XtraBars.Helpers;
 using DevExpress.XtraBars.Ribbon;
 using DevExpress.XtraCharts;
 using DevExpress.XtraEditors;
@@ -47,24 +48,12 @@ namespace DXAppXingyun28
             //Button_zidingyimoni.Visible = false;
             //labelControl_算法1.Visible = false;
             //spinEdit1.Visible = false;
-            // 更新版本号
-            Version ApplicationVersion = new Version(Application.ProductVersion);
-            string weishu = "";
-            if (IntPtr.Size == 4)
-            {
-                weishu = "(32位)";
-            }
-            else if (IntPtr.Size == 8)
-            {
-                weishu = "(64位)";
-            }
-            this.Text = "pc蛋蛋 查询 统计 模拟 " + ApplicationVersion.ToString() + " by 铅笔yy " + weishu;
-            labelControl_title.Text = this.Text;
-            // 读取皮肤
-            XmlConfig xmlControl = new XmlConfig("./xml/skin.xml");
-            defaultLookAndFeel1.LookAndFeel.SetSkinStyle(xmlControl.Search("skin"));
-            dropDownButton_skin.Text = xmlControl.Search("skin");
-            // 注册皮肤选择器
+
+            // 设置标题
+            this.Text = View.SetTitle();
+            labelControl_title.Text = View.SetTitle();
+            // 设置皮肤
+            View.SetSkin(defaultLookAndFeel1);
             SkinHelper.InitSkinGallery(galleryControl_skin);
 
             // 开始日期 结束日期
@@ -90,16 +79,20 @@ namespace DXAppXingyun28
             this.Button_auto_selectAll.Click += new System.EventHandler(this.Button_beishu_Click);
             this.Button_auto_fanxuan.Click += new System.EventHandler(this.Button_beishu_Click);
             this.Button_beishu.Click += new System.EventHandler(this.Button_beishu_Click);
-            // 填写左侧表格
+            // 模拟自动投注 填写  左侧表格
             AddAutoTable();
-            // 创建投注模式按钮
+            // 模拟自动投注 根据xml创建 单双大小按钮
             CreateButton_touZhuMoShi();
-            // 创建自动投注按钮
+            // 模拟自动投注 创建赢了使用啥,输了使用啥的按钮
             Create_ziDongTouZhu();
             listBoxControl_cun.Items.AddRange(load_自动投注().ToArray());
 
             _创建自定义左边();
         }
+
+
+
+
         // 测试2
         private void button_test2_Click(object sender, EventArgs e)
         {
@@ -114,7 +107,7 @@ namespace DXAppXingyun28
             dataTable.Columns.Add("数字", Type.GetType("System.Int32"));
             for (int i = 0; i <= 27; i++)
             {
-                if (i >= 10 && i <= 17)
+                if (i >= 8 && i <= 19)
                 {
                     dataTable.Rows.Add(new object[] { true, i });
                 }
@@ -267,11 +260,6 @@ namespace DXAppXingyun28
             // 保存
             Pc28Utils._计算保存到xml(_下期投注号码, _下期投注数量);
         }
-
-
-        #endregion
-
-        #region util
 
         private (int _合适值, double _合适值总和) _计算最小值的合适值(DataTable dataTable)
         {
@@ -1322,7 +1310,7 @@ namespace DXAppXingyun28
         #endregion
 
         #region 真实自动投注
-        public bool isChromeOpen()
+        public bool IsChromeOpen()
         {
             if (driver == null)
             {
@@ -1345,7 +1333,7 @@ namespace DXAppXingyun28
         IWebDriver driver;
         private void 投注模式编辑ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!isChromeOpen())
+            if (!IsChromeOpen())
             {
                 XtraMessageBox.Show("请点击打开chrome浏览器,并登陆");
                 return;
