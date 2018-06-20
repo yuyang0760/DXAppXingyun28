@@ -291,7 +291,7 @@ namespace DXAppXingyun28
         }
         #endregion
 
-        #region 自动投注
+        #region 模拟自动投注
         // 保存自动投注
         private void Button_cun_Click(object sender, EventArgs e)
         {
@@ -668,11 +668,12 @@ namespace DXAppXingyun28
         // 按D,F添加值
         private void gridControl_autoTouZhu_KeyDown(object sender, KeyEventArgs e)
         {
-
+          
             List<Odds> pc28Odds = Pc28Utils.GetOdds();
 
             int rowHandle = this.gridView_autoTouZhu.FocusedRowHandle;
             int columnIndex = this.gridView_autoTouZhu.FocusedColumn.AbsoluteIndex;
+            if (rowHandle > 27) { return; }
 
             if (e.KeyCode == System.Windows.Forms.Keys.D)
             {
